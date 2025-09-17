@@ -58,29 +58,36 @@ export default function FileUploader() {
   }
 
   const handleUpload = async () => {
-    if (!file) return
-
-    setIsUploading(true)
-    
+    if (!file) return;
+    setIsUploading(true);
     try {
-      //Simulamos la subida por ahora
-      console.log('Uploading file:', file.name)
-      
-      //Simulamos tiempo de procesamiento
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      
-      //Redirigimos a página de resultados con id simulado
-      const mockId = `roast-${Date.now()}`
-      router.push(`/roast/${mockId}`)
-      
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      alert('Error uploading file. Please try again.')
+      const formData = new FormData();
+      formData.append('file', file);
+
+      //Por ahora en localhost. 
+      const response = await fetch('http://localhost:8000/api/v1/upload-cv', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Upload failed');
+      }
+
+      const data = await response.json();
+      if (data && data.roast_id) {
+        router.push(`/roast/${data.roast_id}`);
+      } else {
+        throw new Error('No roast_id returned');
+      }
+    } catch (error: any) {
+      console.error('Error uploading file:', error);
+      alert('Error uploading file. ' + (error.message || 'Please try again.'));
     } finally {
-      setIsUploading(false)
+      setIsUploading(false);
     }
   }
-{/*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*/ }
 
   return (
     <div className="space-y-8">
@@ -120,7 +127,6 @@ export default function FileUploader() {
             </div>
         </div>
 
-        {/* Input escondido */}
         <input
             type="file"
             onChange={handleFileInput}

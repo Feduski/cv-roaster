@@ -6,13 +6,13 @@ frontend/node_modules/
 frontend/.next/
 frontend/out/
 
-# Logs
+#Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Env files
+#Env files
 .env
 .env.*.local
 
@@ -65,11 +65,13 @@ share/python-wheels/
 # macOS
 .DS_Store
 
-# Windows
+#Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# VSCode
+#VSCode
 .vscode/
 .history/
+
+test_cv.txt
