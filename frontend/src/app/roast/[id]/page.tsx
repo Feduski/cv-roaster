@@ -21,6 +21,21 @@ export default function RoastPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const buildTweetText = () => {
+    const baseUrl = 'https://cv-roaster-feduski.vercel.app'
+    const roastSnippet = roast?.roast_text
+      ? `\n\n"${roast.roast_text.slice(0, 120).trim()}"`
+      : ''
+
+    return `Acabo de roastear mi CV y sobrevivi. Si vos tambien queres sufrir (con estilo), rostea el tuyo en ${baseUrl}.${roastSnippet}\n#CVRoaster`
+  }
+
+  const handleShare = () => {
+    const tweet = buildTweetText()
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     const fetchRoast = async () => {
       setLoading(true)
@@ -137,7 +152,10 @@ export default function RoastPage() {
             </div>
           </Link>
           
-          <button className="group px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+          <button
+            onClick={handleShare}
+            className="group px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105"
+          >
             <div className="flex items-center space-x-3">
               <span className="text-xl group-hover:animate-pulse">📤</span>
               <span>Share Roast</span>
