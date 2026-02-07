@@ -8,7 +8,6 @@ load_dotenv()
 
 class AIService:
     def __init__(self):
-        """Inicializa el cliente de OpenAI"""
         self.api_key = os.getenv("OPENAI_API_KEY")
         
         if self.api_key:
@@ -85,7 +84,7 @@ Make it hurt (a little) but help them win! 🔥
         """Llama a la API de OpenAI"""
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
